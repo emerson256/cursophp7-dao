@@ -46,11 +46,7 @@ class Usuario {
 		));
 
 		if(count($result[0]) > 0) {
-			$row = $result[0];
-			$this->setId($row['id']);
-			$this->setEmail($row['email']);
-			$this->setSenha($row['senha']);
-			$this->setNome($row['nome']);
+			$this->setData($result[0]);
 		}
 
 	}
@@ -72,9 +68,45 @@ class Usuario {
 	public static function search($nome) {
 		$sql = new Sql();
 		return $sql->select("SELECT * FROM usuarios WHERE nome LIKE :SEARCH ORDER BY nome", array(
-			':SEARCH'=>"%".$nome."%"
+			':SEARCH'	=>"%".$nome."%"
+		));
+	}
+
+	public function setData($data) {
+
+		$this->setId($data['id']);
+		$this->setEmail($data['email']);
+		$this->setSenha($data['senha']);
+		$this->setNome($data['nome']);
+	}
+
+	public function insert() {
+		$sql = new Sql();
+
+		$result = $sql->select("INSERT INTO usuarios (nome,senha,email)VALUES(:NOME, :SENHA,:EMAIL)",array(
+			':SENHA'=>$this->getSenha(),
+			'NOME'=>$this->getNome(),
+			'EMAIL'=>$this->getEmail()
 		));
 
+		if(count($result) > 0) {
+			$this->setData($result[0]);
+		}
+	}
+
+	public function update($nome,$email,$senha) {
+
+		$this->setNome($nome);
+		$this->setEmail($email);
+		$this->setSenha($senha);
+
+		$sql = new Sql();
+		$sql->query("UPDATE usuarios SET nome = :NOME, senha = :SENHA, email = :EMAIL WHERE id = :ID", array(
+			':NOME'=>$this->getNome(),
+			':SENHA'=>$this->getSenha(),
+			':EMAIL'=>$this->getEmail(),
+			':ID'=>$this->getID()
+		));
 	}
 }
 ?>
