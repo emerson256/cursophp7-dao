@@ -63,5 +63,18 @@ class Usuario {
 			"senha"=>$this->getSenha()
 		));
 	}
+
+	public static function getList() {
+		$sql = new Sql();
+		return $sql->select("SELECT * FROM usuarios ORDER BY nome");
+	}
+
+	public static function search($nome) {
+		$sql = new Sql();
+		return $sql->select("SELECT * FROM usuarios WHERE nome LIKE :SEARCH ORDER BY nome", array(
+			':SEARCH'=>"%".$nome."%"
+		));
+
+	}
 }
 ?>
