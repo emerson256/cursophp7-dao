@@ -21,8 +21,13 @@ echo $usuario;
 
 // $usuario->insert();
 
+// $usuario = new Usuario();
+// $usuario->loadById(1);
+// $usuario->update("Teste","teste@gmail.com","123456");
+
 $usuario = new Usuario();
-$usuario->loadById(1);
-$usuario->update("Teste","teste@gmail.com","123456");
+$usuario->loadById(8);
+$usuario->delete();
+
 
 ?>
